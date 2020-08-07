@@ -1,0 +1,24 @@
+{
+    "stack": "container",
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "free"
+        }
+    },
+    "addons": [{
+            "plan": "heroku-postgresql:hobby-dev",
+            "as": "DATABASE"
+        },
+        {
+            "plan": "heroku-redis:hobby-dev",
+            "as": "REDIS"
+        }
+    ],
+    "env": {
+        "SECRET_KEY_BASE": {
+            "required": true,
+            "generator": "secret"
+        }
+    }
+}

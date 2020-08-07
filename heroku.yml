@@ -1,0 +1,16 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+    - plan: heroku-redis
+      as: REDIS
+build:
+  docker:
+    web: Dockerfile.prod
+  config:
+    RUBY_VERSION: '2.7.1'
+    PG_MAJOR: '12'
+    NODE_MAJOR: '12'
+    YARN_VERSION: '1.22.4'
+    BUNDLER_VERSION: '2.1.4'
+    SECRET_KEY_BASE: $SECRET_KEY_BASE
