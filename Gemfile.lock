@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: af0181059afd92cb126f11a9c6704c007fc3636a
+  revision: 79af891f3e17091d6ee46712ad1fd58243b212a6
   branch: 6-0-stable
   specs:
     actioncable (6.0.3.2)
@@ -92,7 +92,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/webpacker.git
-  revision: bf278f9787704ed0f78038ad7d36c008abc2edfd
+  revision: 4fbb7bcadcd190b2c21cfc3c6bd894328e648e65
   specs:
     webpacker (5.1.1)
       activesupport (>= 5.2)
@@ -119,7 +119,7 @@ GEM
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
     childprocess (3.0.0)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     crass (1.0.6)
     erubi (1.9.0)
     ffi (1.13.1)
