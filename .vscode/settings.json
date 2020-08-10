@@ -1,0 +1,9 @@
+{
+    "ruby.useLanguageServer": true,
+    "ruby.intellisense": "rubyLocate",
+    "ruby.lint": {
+        "rubocop": {
+            "command": ".vscode/rubocop"
+        }
+    }
+}
