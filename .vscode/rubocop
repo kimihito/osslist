@@ -1,0 +1,12 @@
+#!/bin/bash
+
+CMD_ARGS=""
+for arg in $@; do
+  if [ -f "$arg" ]; then
+    CMD_ARGS="$CMD_ARGS ${arg#$PWD/}"
+  else
+    CMD_ARGS="$CMD_ARGS $arg"
+  fi
+done
+
+dip rubocop $CMD_ARGS
