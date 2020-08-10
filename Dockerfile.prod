@@ -8,6 +8,8 @@ ARG NODE_MAJOR
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
 ARG SECRET_KEY_BASE
+ARG RAILS_SERVE_STATIC_FILES
+
 
 # Common dependencies
 RUN apt-get update -qq \
@@ -56,6 +58,7 @@ ENV LANG=C.UTF-8 \
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES:-enabled}
 # Uncomment this line if you store Bundler settings in the project's root
 # ENV BUNDLE_APP_CONFIG=.bundle
 
