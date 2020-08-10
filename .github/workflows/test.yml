@@ -97,3 +97,11 @@ jobs:
         run: bin/rails db:create --trace
       - name: run cypress
         run: bin/rails cypress:run
+      - name: Archive Cypress screenshots and videos
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-artifact
+          path: |
+            tmp/cypress_screenshots
+            tmp/cypress_videos
