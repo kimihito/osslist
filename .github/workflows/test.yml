@@ -1,0 +1,97 @@
+name: test
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432
+    container:
+      image: quay.io/evl.ms/fullstaq-ruby:2.7.1-jemalloc-buster-slim
+      env:
+        RAILS_ENV: test
+    steps:
+      - name: Install common dependencies
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+            build-essential \
+            zlib1g-dev \
+            liblzma-dev \
+            gnupg2 \
+            curl \
+            less \
+            git
+          apt-get clean
+          rm -rf /var/cache/apt/archives/*
+          rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+          truncate -s 0 /var/log/*log
+      - name: Add PostgreSQL to sources list
+        run: |
+          curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+          echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+        env:
+          PG_MAJOR: '12'
+
+      - name: Add NodeJS to sources list
+        run: |
+          curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
+        env:
+          NODE_MAJOR: '12'
+      - name: Add Yarn to sources list
+        run: |
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+      - name: Install dependencies
+        env:
+          PG_MAJOR: '12'
+          YARN_VERSION: '1.22.4'
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade
+          DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+              libpq-dev \
+              postgresql-client-$PG_MAJOR \
+              nodejs \
+              yarn=$YARN_VERSION-1 \
+              libgtk2.0-0 \
+              libgtk-3-0 \
+              libnotify-dev \
+              libgconf-2-4 \
+              libnss3 \
+              libxss1 \
+              libasound2 \
+              libxtst6 \
+              xauth \
+              xvfb
+              apt-get clean
+              rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+              truncate -s 0 /var/log/*log
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: bundle-${{ hashFiles('**/Gemfile.lock') }}
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: bundle install
+        run: |
+          gem update --system && gem install bundler:$BUNDLER_VERSION
+          bundle install --path vendor/bundle --jobs 4 --retry 3
+        env:
+          BUNDLER_VERSION: '2.1.4'
+      - name: yarn install
+        run: yarn install
+      - name: Install cypress
+        run: yarn cypress install
+      - name: db create
+        run: bin/rails db:create --trace
+      - name: run cypress
+        run: bin/rails cypress:run
