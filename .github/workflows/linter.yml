@@ -1,0 +1,27 @@
+name: reviewdog
+on: [pull_request]
+jobs:
+  rubocop:
+    name: runner / rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: rubocop
+        uses: reviewdog/action-rubocop@v1
+        with:
+          rubocop_extensions: rubocop-performance rubocop-rails rubocop-minitest
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          fail_on_error: true
+
+  brakeman:
+    name: runner / brakeman
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: brakeman
+        uses: reviewdog/action-brakeman@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          fail_on_error: true
