@@ -79,7 +79,9 @@ jobs:
           key: bundle-${{ hashFiles('**/Gemfile.lock') }}
       - uses: actions/cache@v1
         with:
-          path: node_modules
+          path: |
+            ~/.cache
+            node_modules
           key: yarn-${{ hashFiles('**/yarn.lock') }}
       - name: bundle install
         run: |
