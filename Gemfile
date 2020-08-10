@@ -37,13 +37,13 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', github: 'rails/web-console'
   gem 'listen', '~> 3.2'
+  gem 'rubocop', require: false
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'rubocop', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-minitest', require: false
 end
 
 group :test do
