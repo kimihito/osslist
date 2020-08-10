@@ -73,15 +73,15 @@ jobs:
               rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
               truncate -s 0 /var/log/*log
       - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: bundle-${{ hashFiles('**/Gemfile.lock') }}
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: |
             ~/.cache
-            node_modules
+            **/node_modules
           key: yarn-${{ hashFiles('**/yarn.lock') }}
       - name: bundle install
         run: |
