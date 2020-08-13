@@ -80,7 +80,8 @@ RUN bundle install --without development test
 
 COPY . .
 
-RUN bundle exec rails assets:precompile \
+RUN yarn webpack \
+ && bundle exec rails assets:precompile \
  && yarn cache clean \
  && rm -rf node_modules tmp/cache
 

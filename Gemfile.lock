@@ -90,16 +90,6 @@ GIT
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
 
-GIT
-  remote: https://github.com/rails/webpacker.git
-  revision: 4fbb7bcadcd190b2c21cfc3c6bd894328e648e65
-  specs:
-    webpacker (5.1.1)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -160,8 +150,6 @@ GEM
     puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.3)
-    rack-proxy (0.6.5)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails-dom-testing (2.0.3)
@@ -201,7 +189,8 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    semantic_range (2.3.0)
+    simpacker (1.1.1)
+      railties (>= 4.2)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -251,13 +240,13 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   selenium-webdriver
+  simpacker
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks
   tzinfo-data
   web-console!
   webdrivers
-  webpacker!
 
 RUBY VERSION
    ruby 2.7.1p83

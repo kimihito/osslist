@@ -9,8 +9,8 @@ gem 'rails', github: "rails/rails", branch: "6-0-stable"
 gem 'pg'
 # Use Puma as the app server
 gem 'puma'
-# Use development version of Webpacker
-gem 'webpacker', github: "rails/webpacker"
+
+gem 'simpacker'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
