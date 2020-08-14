@@ -1,20 +1,20 @@
 
 ARG NODE_MAJOR
+ARG RUBY_VERSION
 
-FROM node:${NODE_MAJOR}-alpine as assets-builder
+FROM node:${NODE_MAJOR}-alpine as node
+FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-jemalloc-buster-slim as ruby
+
+FROM node as assets-builder
 RUN mkdir -p /app
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install
-COPY webpack.config.js ./
+COPY webpack.config.js postcss.config.js tailwind.config.js babel.config.js ./
 COPY app/javascript ./app/javascript
 RUN NODE_ENV=production ./node_modules/.bin/webpack
 
-# See explanation below
-ARG RUBY_VERSION
-
-FROM quay.io/evl.ms/fullstaq-ruby:$RUBY_VERSION-jemalloc-buster-slim as builder
-
+FROM ruby
 ARG PG_MAJOR
 ARG BUNDLER_VERSION
 ARG SECRET_KEY_BASE
@@ -57,7 +57,7 @@ ENV LANG=C.UTF-8 \
   BUNDLE_RETRY=3
 
 ENV RAILS_ENV=production
-ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
 ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES:-enabled}
 # Uncomment this line if you store Bundler settings in the project's root
 # ENV BUNDLE_APP_CONFIG=.bundle
@@ -67,7 +67,7 @@ ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES:-enabled}
 
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
-    gem install bundler:$BUNDLER_VERSION
+    gem install bundler:${BUNDLER_VERSION}
 
 # Create a directory for the app code
 RUN mkdir -p /app
