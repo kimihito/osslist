@@ -12,6 +12,7 @@ COPY package.json yarn.lock ./
 RUN yarn install
 COPY webpack.config.js postcss.config.js tailwind.config.js babel.config.js ./
 COPY app/javascript ./app/javascript
+COPY app/views ./app/views
 RUN NODE_ENV=production ./node_modules/.bin/webpack
 
 FROM ruby
