@@ -96,7 +96,9 @@ jobs:
       - name: db create
         run: bin/rails db:create --trace
       - name: run cypress
-        run: bin/rails cypress:run
+        run: |
+          NODE_ENV=production yarn webpack
+          bin/rails cypress:run
       - name: Archive Cypress screenshots and videos
         if: failure()
         uses: actions/upload-artifact@v2
